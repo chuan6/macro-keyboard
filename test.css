@@ -1,32 +1,32 @@
 #screen {}
 #screen span {
-	font-family:	inconsolata, monospace;
-	font-size:	24px;
+    font-family: inconsolata, monospace;
+    font-size: 24px;
 }
 #keyboard {
-	position:	fixed;
-	bottom:		0;
-	width:		100%;
-	border-top:	1px solid maroon;
-	background-color:	wheat;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid maroon;
+    background-color: wheat;
 }
 #keyboard div {}
 .key {
-	position:	absolute;
-	font-weight:	bold;
-	font-family:	inconsolata, monospace;
-	padding:	0;
-	border:		0;
+    position: absolute;
+    font-weight: bold;
+    font-family: inconsolata, monospace;
+    padding: 0;
+    border: 0;
 }
 .key_up {
-	color:		#444444;
-	background-color:white;
+    color: #444444;
+    background-color: white;
 }
 .key_down {
-	color:		#FFFFEE;
-	background-color:maroon;
+    color: #FFFFEE;
+    background-color: maroon;
 }
 body, div {
-	margin:		0;
-	padding:	0;
+    margin: 0;
+    padding: 0;
 }
