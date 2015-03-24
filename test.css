@@ -1,10 +1,12 @@
-#screen {}
+#screen {
+}
 #screen span {
-    font-family: inconsolata, monospace;
-    font-size: 24px;
+    font-family: serif;
+    font-size: 150%;
+    line-height: 200%;
 }
 #keyboard {
-    position: fixed;
+    position: relative;
     bottom: 0;
     width: 100%;
     border-top: 1px solid maroon;
@@ -14,7 +16,8 @@
 .key {
     position: absolute;
     font-weight: bold;
-    font-family: inconsolata, monospace;
+    font-size: 80%;
+    font-family: "sans-serif";
     padding: 0;
     border: 0;
 }

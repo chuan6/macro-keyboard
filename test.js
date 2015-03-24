@@ -13,7 +13,7 @@ function content() {
 
 var KEY = {
     // keys on display
-    65: "a", 66: "b", 67: "c", 68: "d", 69: "e",
+    65: "alpha", 66: "b", 67: "c", 68: "d", 69: "e",
     70: "f", 71: "g", 72: "h", 73: "i", 74: "j",
     75: "k", 76: "l", 77: "m", 78: "n", 79: "o",
     80: "p", 81: "q", 82: "r", 83: "s", 84: "t",
@@ -68,7 +68,7 @@ function styleKeyboard() {
     //var r = 1.618;	// golden ratio
     var r = 2;
     
-    var h_total	= $(window).width();
+    var h_total	= $("html").width();
     var h_unit	= Math.floor(h_total/10);
     var h_space	= h_unit * 0.1;
     var h_margin= h_space * 0.5;
