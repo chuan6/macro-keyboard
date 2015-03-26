@@ -1,63 +1,97 @@
-function content() {
-    var arr = [];
-
-    return {
-	edit: function (index, replaceWith) {
-	    arr[index] = replaceWith;
-	},
-	toScreen: function () {
-	    $("#screen span").text(arr.join(' '));
-	},
-    };
-}
-
 var KEY = {
     // keys on display
-    65: "alpha", 66: "b", 67: "c", 68: "d", 69: "e",
+    32: " ",
+    65: "a", 66: "b", 67: "c", 68: "d", 69: "e",
     70: "f", 71: "g", 72: "h", 73: "i", 74: "j",
     75: "k", 76: "l", 77: "m", 78: "n", 79: "o",
     80: "p", 81: "q", 82: "r", 83: "s", 84: "t",
     85: "u", 86: "v", 87: "w", 88: "x", 89: "y",
-    90: "z"
+    90: "z",
+    188: ",", 190: "."
 };
 
-var processKeyInput = function () {
-    var current_text = "";
-    return (function (key) {
-	current_text += KEY[key];
-	return current_text;
-    });
+var content = function () {
+    var txt = "";
+    return {
+        string: function () {
+            return txt;
+        },
+        append: function (s) {
+            txt += s;
+            return this;
+        },
+        drop: function (n) {
+            txt = txt.slice(0, txt.length - n);
+            return this;
+        },
+    };
 }();
 
 function toScreen(s) {
-    $("#screen span").text(s);
+    $("#screen > span").text(s);
 }
 
-function getHandler(key) {
-    if (key >= 65 && key <= 90) {
-	return (function () {
-	    document.getElementById("code_"+key).className = "key key_down";
-	    toScreen(processKeyInput(key));
-	});
-    }
-    switch(key) {
-    case 17:
+/*
+Control key sequence creates a special environment for the keydowns
+following the keydown of ctrl, and before the keyup of ctrl. In this
+environment, keydowns are interpreted differently; say, in normal
+environment, keydown on 'v' will append a character 'v' at the end
+of current text on screen, while in this special environment, it will
+be interpreted as a COPY command, and freeze the environment (further
+keydowns will not have any effect until the next keyup of ctrl.) 
+*/
 
-    }
-}
+var ctrl = {
+    action: function (key) {
+        switch (key) {
+        case 67:
+            $("#screen > span").focus();
+            document.execCommand("SelectAll");
+            document.execCommand("Copy");
+            break;
+        default:
+            break;
+        }
+    },
+};
 
-var key_seq = "";
+var mode = content; // or ctrl, shift
 
 function keyDown(event) {
+    event.preventDefault();
     var key = event.which;	console.log(key);
-    var id = "code_" + key;
-    getHandler(key)();
+    if (key >= 65 && key <= 90) {
+        document.getElementById("code_"+key).className = "key key_down";
+    }
+    switch (mode) {
+    case content:
+        switch (key) {
+        case 8: //backspace
+            toScreen(content.drop(1).string());
+            break;
+        case 17: //ctrl
+            mode = ctrl;
+            break;
+        default:
+            toScreen(content.append(KEY[key]).string());
+            break;
+        }
+        break;
+    case ctrl:
+        ctrl.action(key);
+        break;
+    default:
+        break;
+    }
 }
 
 function keyUp(event) {
     var key = event.which;
     if (key >= 65 && key <= 90) {
         document.getElementById("code_" + key).className = "key key_up";
+    }
+    if (key == 17) { // assert: mode == ctrl
+        mode = content;
     }
 }
 

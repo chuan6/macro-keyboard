@@ -4,6 +4,7 @@
     font-family: serif;
     font-size: 150%;
     line-height: 200%;
+    white-space: pre-wrap;
 }
 #keyboard {
     position: relative;
@@ -20,6 +21,10 @@
     font-family: "sans-serif";
     padding: 0;
     border: 0;
+}
+.key > div {
+    margin-left: 3px;
+    margin-top: 6px;
 }
 .key_up {
     color: #444444;
