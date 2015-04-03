@@ -64,14 +64,16 @@ var ctrl = {
 var mode = content; // or ctrl, shift
 
 function keyDown(event) {
+    var k, x;
+
     event.preventDefault();
-    var key = event.which;	console.log(key);
-    if (key >= 65 && key <= 90) {
-        document.getElementById("code_"+key).className = "key key_down";
+    k = event.which;	console.log(k);
+    if (k >= 65 && k <= 90) {
+        document.getElementById("code_" + k).className = "key key_down";
     }
     switch (mode) {
     case content:
-        switch (key) {
+        switch (k) {
         case 8: //backspace
             toScreen(content.drop(1).string());
             break;
@@ -79,12 +81,14 @@ function keyDown(event) {
             mode = ctrl;
             break;
         default:
-            toScreen(content.append(KEY[key]).string());
+            x = KEY[k];
+            if (x)
+                toScreen(content.append(x).string());
             break;
         }
         break;
     case ctrl:
-        ctrl.action(key);
+        ctrl.action(k);
         break;
     default:
         break;
