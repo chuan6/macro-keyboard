@@ -11,9 +11,17 @@ var KEY = {
     96: "0", 97: "1", 98: "2", 99: "3", 100: "4",
     101: "5", 102: "6", 103: "7", 104: "8", 105: "9",
     106: "*", 107: "+", 109: "-", 110: ".", 111: "/",
-    186: ";", 187: "-", 188: ",", 189: "+", 190: ".",
+    186: ";", 187: "=", 188: ",", 189: "-", 190: ".",
     191: "/", 192: "`",
     219: "[", 220: "\\", 221: "]", 222: "'"
+};
+
+var SHIFT_KEY = {
+    48: ")", 49: "!", 50: "@", 51: "#", 52: "$",
+    53: "%", 54: "^", 55: "&", 56: "*", 57: "(",
+    186: ":", 187: "+", 188: "<", 189: "_", 190: ">",
+    191: "?", 192: "~",
+    219: "{", 220: "|", 221: "}", 222: "\""
 };
 
 var content = function () {
@@ -36,6 +44,14 @@ var content = function () {
 function toScreen(s) {
     $("#screen > span").text(s);
 }
+
+var shift = {
+    input: function (key) {
+        x = SHIFT_KEY[key];
+        if (x)
+            toScreen(content.append(x).string());
+    },
+};
 
 /*
 Control key sequence creates a special environment for the keydowns
@@ -77,6 +93,9 @@ function keyDown(event) {
         case 8: //backspace
             toScreen(content.drop(1).string());
             break;
+        case 16: //shift
+            mode = shift;
+            break;
         case 17: //ctrl
             mode = ctrl;
             break;
@@ -87,6 +106,8 @@ function keyDown(event) {
             break;
         }
         break;
+    case shift:
+        shift.input(k);
     case ctrl:
         ctrl.action(k);
         break;
@@ -100,7 +121,7 @@ function keyUp(event) {
     if (key >= 65 && key <= 90) {
         document.getElementById("code_" + key).className = "key key_up";
     }
-    if (key == 17) { // assert: mode == ctrl
+    if (key == 16 || key == 17) { // assert: mode == ctrl
         mode = content;
     }
 }
